@@ -196,8 +196,42 @@ button:active {
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-  main { flex-direction: column; }
-  .map { order: 2; }
+  main { 
+    flex-direction: column; 
+  }
+  .form {
+    flex: 0 1 100%;
+  }
+  .map { 
+    order: 2;
+    flex: 0 1 100%;
+    min-height: 350px;
+  }
+  #mapid {
+    height: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrap {
+    padding: 12px;
+    margin: 10px auto;
+  }
+  .form {
+    flex: 0 1 100%;
+    padding: 16px;
+  }
+  .map {
+    flex: 0 1 100%;
+    padding: 8px;
+    min-height: 300px;
+  }
+  #mapid {
+    height: 300px;
+  }
+  h1 {
+    font-size: 20px;
+  }
 }
 
 /* REDUCE MOTION */
