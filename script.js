@@ -183,23 +183,53 @@ function solveGaussNewton2D(xi, yi, ri, init, maxIter = 100, tol = 1e-6) {
 }
 
 // ------------------------------
-// MAPA
-const map = (typeof L !== 'undefined' && document.getElementById('mapid')) 
-  ? L.map('mapid', { zoomControl: true }).setView([20.6453, -98.6614], 17) 
-  : null;
+// MAPA - Inicializar DESPUÉS de que el DOM esté completamente listo
+let map = null;
+let layerGroup = null;
 
-if (map) {
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+function initializeMap() {
+  const mapContainer = document.getElementById('mapid');
+  if (!mapContainer) {
+    console.error("Contenedor del mapa no encontrado");
+    return;
+  }
+
+  // Si ya existe el mapa, no lo reinicializar
+  if (map) return;
+
+  try {
+    // Inicializar Leaflet
+    map = L.map('mapid', { zoomControl: true }).setView([20.6453, -98.6614], 17);
+    
+    // Agregar tile layer de OpenStreetMap
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+    
+    // Crear feature group para markers y círculos
+    layerGroup = L.featureGroup().addTo(map);
+    
+    // Forzar que Leaflet se redimensione
+    setTimeout(() => {
+      if (map) map.invalidateSize();
+    }, 100);
+    
+    console.log("Mapa inicializado correctamente");
+  } catch (err) {
+    console.error("Error al inicializar mapa:", err);
+  }
 }
 
-let layerGroup = (map) 
-  ? L.featureGroup().addTo(map) 
-  : { 
-      clearLayers: () => {}, 
-      addLayer: () => {}, 
-      getBounds: () => ({ isValid: () => false }), 
-      getLayers: () => [] 
-    };
+// Inicializar mapa cuando se carga el DOM
+document.addEventListener('DOMContentLoaded', initializeMap);
+
+// También intentar inicializar si el script se carga después del DOM
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeMap);
+} else {
+  initializeMap();
+}
 
 // ------------------------------
 // MAIN
@@ -286,20 +316,27 @@ if (calcBtn) {
       }
 
       if (map) {
-        L.circleMarker([lat1, lon1], { radius: 6 }).bindPopup('P1 (ref)').addTo(layerGroup);
-        L.circleMarker([lat2, lon2], { radius: 6 }).bindPopup('P2').addTo(layerGroup);
-        L.circleMarker([lat3, lon3], { radius: 6 }).bindPopup('P3').addTo(layerGroup);
+        L.circleMarker([lat1, lon1], { radius: 6, color: '#e74c3c', fillColor: '#e74c3c', fillOpacity: 0.8 }).bindPopup('P1 (ref)').addTo(layerGroup);
+        L.circleMarker([lat2, lon2], { radius: 6, color: '#3498db', fillColor: '#3498db', fillOpacity: 0.8 }).bindPopup('P2').addTo(layerGroup);
+        L.circleMarker([lat3, lon3], { radius: 6, color: '#2ecc71', fillColor: '#2ecc71', fillOpacity: 0.8 }).bindPopup('P3').addTo(layerGroup);
 
-        L.circle([lat1, lon1], { radius: d1, weight: 2 }).addTo(layerGroup);
-        L.circle([lat2, lon2], { radius: d2, weight: 2 }).addTo(layerGroup);
-        L.circle([lat3, lon3], { radius: d3, weight: 2 }).addTo(layerGroup);
+        L.circle([lat1, lon1], { radius: d1, weight: 2, color: '#e74c3c', fillOpacity: 0.1 }).addTo(layerGroup);
+        L.circle([lat2, lon2], { radius: d2, weight: 2, color: '#3498db', fillOpacity: 0.1 }).addTo(layerGroup);
+        L.circle([lat3, lon3], { radius: d3, weight: 2, color: '#2ecc71', fillOpacity: 0.1 }).addTo(layerGroup);
 
         L.marker([latOut, lonOut], { title: 'Solución' })
           .bindPopup(`Árbol<br>${latOut.toFixed(7)}, ${lonOut.toFixed(7)}<br>RMS: ${rms.toFixed(3)} m`)
           .addTo(layerGroup);
 
         const groupBounds = layerGroup.getBounds();
-        if (groupBounds.isValid()) map.fitBounds(groupBounds.pad(0.6));
+        if (groupBounds.isValid()) {
+          map.fitBounds(groupBounds.pad(0.6));
+        }
+        
+        // Forzar redimensionamiento en móvil después de agregar elementos
+        setTimeout(() => {
+          if (map) map.invalidateSize();
+        }, 300);
       }
     }
     catch (err) {
