@@ -1,0 +1,67 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kaab</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🌲 Kaab 🌲 </h1>
+      <p>Ingresa 3 puntos de coordenas (N y W) y sus distancias (m).</p>
+      <p>RECOMENDACION: Si es posible, agregue decimales en las distancias para mayor precisión.</p>
+    </header>
+
+    <main>
+      <section class="form">
+        <div class="pt">
+          <h3>Punto 1 (referencia)</h3>
+          <input id="p1_lat" placeholder="Coordenada P1 (N)" value="20 38 43 N"/>
+          <input id="p1_lon" placeholder="Coordenada P1 (W)" value="98 39 41 W"/>
+          <input id="d1" placeholder="Distancia d1 (m)" value="18.74"/>
+        </div>
+
+        <div class="pt">
+          <h3>Punto 2</h3>
+          <input id="p2_lat" placeholder="Coordenada P2 (N)" value="20 38 44 N"/>
+          <input id="p2_lon" placeholder="Cordenada P2 (W)" value="98 39 40 W"/>
+          <input id="d2" placeholder="Distancia d2 (m)" value="56.75"/>
+        </div>
+
+        <div class="pt">
+          <h3>Punto 3</h3>
+          <input id="p3_lat" placeholder="Coordenada P3 (N)" value="20 38 44 N"/>
+          <input id="p3_lon" placeholder="Cordenada P3 (W)" value="98 39 41 W"/>
+          <input id="d3" placeholder="Distancia d3 (m)" value="46.88"/>
+        </div>
+
+        <button id="calcBtn">Calcular ubicación</button>
+
+        <!-- ⬇️ Nuevo botón de limpiar -->
+        <button id="clearBtn" class="limpiar">Limpiar</button>
+
+        <div id="info" class="info">Resultado aparecerá aquí.</div>
+        <div class="links">
+          <a id="mapsLink" target="_blank" rel="noopener">Abrir en Google Maps</a>
+        </div>
+      </section>
+
+      <section class="map">
+        <div id="mapid"></div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Esperamos que disfrutaras de la experiencia.</small>
+    </footer>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

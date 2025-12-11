@@ -1,0 +1,105 @@
+html, body { 
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+        url('./imag.png');
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+
+    font-family: "Poppins", Arial, sans-serif;
+}
+
+/* Capa oscura */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+}
+
+/* TARJETA */
+.contenedor {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+
+    width: 320px;
+    padding: 28px;
+    border-radius: 20px;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    animation: fadeIn 1s ease;
+}
+
+/* LOGO */
+.logo {
+    width: 80px;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* TÍTULO */
+h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* TEXTO */
+p {
+    color: #e8e8e8;
+    margin-bottom: 22px;
+    font-size: 15px;
+}
+
+/* BOTÓN estilo GLASS gris claro */
+.boton-redireccion {
+    display: inline-block;
+    padding: 12px 25px;
+
+    /* Efecto glass gris */
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(10px);
+
+    color: #ffffff; /* texto blanco */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+
+    border-radius: 14px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+
+    transition: 0.25s ease;
+}
+
+.boton-redireccion:hover {
+    transform: translateY(-3px) scale(1.03);
+    background: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+/* ANIMACIÓN */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
